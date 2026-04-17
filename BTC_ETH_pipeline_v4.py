@@ -19,8 +19,8 @@ dataset_path = kagglehub.dataset_download(
     "martinsn/high-frequency-crypto-limit-order-book-data")
 print(f"Dataset path: {dataset_path}")
 
-btc = pd.read_csv(os.path.join(dataset_path, 'BTC_1sec.csv'), nrows=100000)
-eth = pd.read_csv(os.path.join(dataset_path, 'ETH_1sec.csv'), nrows=100000)
+btc = pd.read_csv(os.path.join(dataset_path, 'BTC_1sec.csv'))
+eth = pd.read_csv(os.path.join(dataset_path, 'ETH_1sec.csv'))
 print(f"BTC shape: {btc.shape}")
 print(f"ETH shape: {eth.shape}")
 
@@ -360,7 +360,7 @@ plt.show()
 
 
 # ==========================================
-# 8. Final Dataset Assembly & Export
+# 8. Final Dataset Assembly 
 # ==========================================
 
 # ── PCA: keep top-N components (Kaiser, capped at 10) ─────────
@@ -387,7 +387,6 @@ df_full = pd.concat([pca_df,
                      df[market_state_cols],
                      df[classic_factor_cols],
                      common_cols], axis=1)
-print(f"Saved lob_full_v4.csv       | Shape: {df_full.shape}")
 print(f"  = PCA({top_n_pca}) + market({len(market_state_cols)}) "
       f"+ classic({len(classic_factor_cols)}) + meta(3)")
 
@@ -396,7 +395,6 @@ df_no_pca = pd.concat([df[lob_features],
                         df[market_state_cols],
                         df[classic_factor_cols],
                         common_cols], axis=1)
-print(f"Saved lob_no_pca_v4.csv     | Shape: {df_no_pca.shape}")
 print(f"  = raw_LOB({len(lob_features)}) + market({len(market_state_cols)}) "
       f"+ classic({len(classic_factor_cols)}) + meta(3)")
 
@@ -404,7 +402,6 @@ print(f"  = raw_LOB({len(lob_features)}) + market({len(market_state_cols)}) "
 df_no_market = pd.concat([pca_df,
                            df[classic_factor_cols],
                            common_cols], axis=1)
-print(f"Saved lob_no_market_v4.csv  | Shape: {df_no_market.shape}")
 print(f"  = PCA({top_n_pca}) + classic({len(classic_factor_cols)}) + meta(3)")
 
 print("\n--- Feature scale verification on exported data ---")
